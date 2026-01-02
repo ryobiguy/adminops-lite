@@ -33,7 +33,13 @@ export function all(sql, params = []) {
 }
 
 export async function initDb() {
-  await run('PRAGMA journal_mode = WAL');
+  if (String(dbFile).startsWith('/var/data/')) {
+    await run('PRAGMA journal_mode = DELETE');
+    await run('PRAGMA synchronous = FULL');
+    await run('PRAGMA busy_timeout = 5000');
+  } else {
+    await run('PRAGMA journal_mode = WAL');
+  }
 
   await run(`
     CREATE TABLE IF NOT EXISTS clients (
