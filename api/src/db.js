@@ -2,7 +2,8 @@ import sqlite3 from 'sqlite3';
 
 sqlite3.verbose();
 
-const db = new sqlite3.Database('adminops.sqlite');
+const dbFile = process.env.DB_FILE || 'adminops.sqlite';
+const db = new sqlite3.Database(dbFile);
 
 export function run(sql, params = []) {
   return new Promise((resolve, reject) => {
