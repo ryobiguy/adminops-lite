@@ -2,7 +2,7 @@ import sqlite3 from 'sqlite3';
 
 sqlite3.verbose();
 
-const dbFile = process.env.DB_FILE || 'adminops.sqlite';
+export const dbFile = process.env.DB_FILE || 'adminops.sqlite';
 const db = new sqlite3.Database(dbFile);
 
 export function run(sql, params = []) {

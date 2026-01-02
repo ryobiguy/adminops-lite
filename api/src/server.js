@@ -3,7 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import { randomUUID } from 'crypto';
 
-import { initDb, get, all, run } from './db.js';
+import { initDb, get, all, run, dbFile } from './db.js';
 import { authMiddleware, signToken } from './auth.js';
 
 dotenv.config();
@@ -22,6 +22,14 @@ app.use(express.json());
 
 app.get('/health', (req, res) => {
   res.json({ status: 'ok' });
+});
+
+app.get('/debug/db', authMiddleware, (req, res) => {
+  res.json({
+    dbFile,
+    cwd: process.cwd(),
+    nodeEnv: process.env.NODE_ENV || null,
+  });
 });
 
 function nowIso() {
